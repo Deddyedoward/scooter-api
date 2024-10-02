@@ -5,10 +5,10 @@ import { SignInDto } from './dto/sign-in.dto';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
-    @Post()
-    signin(@Body() signIn: SignInDto, @Res() res: Response) {
-        res.json(this.authService.verify(signIn));
-    }
+  @Post()
+  async signin(@Body() signIn: SignInDto, @Res() res: Response) {
+    res.json(await this.authService.verify(signIn));
+  }
 }
