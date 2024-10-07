@@ -1,12 +1,19 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CreateRideDto } from './dto/create-ride.dto';
+import { RideService } from './ride.service';
 
 @Controller('ride')
 export class RideController {
-    constructor() {}
+    constructor(
+        private rideService: RideService
+    ) {}
 
     async index() {}
 
     async show() {}
 
-    async create() {}
+    @Post()
+    async create(@Body() payload: CreateRideDto) {
+        return await this.rideService.startRide(payload);
+    }
 }

@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
 
 export const RideSchema = new mongoose.Schema({
-    scooterId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'Scooter', required: true},
+    // scooterId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    //userId: { type: mongoose.Schema.Types.ObjectId, ref: 'Scooter', required: true},
     startTime: { type: Date },
     endTime: { type: Date },
     startLocation: { 
