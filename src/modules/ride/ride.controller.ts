@@ -9,7 +9,10 @@ export class RideController {
         private rideService: RideService
     ) {}
 
-    async index() {}
+    @Get()
+    async index() {
+        return await this.rideService.getRides();
+    }
 
     @Get(':id')
     async show(@Param() params: GetRideDto) {

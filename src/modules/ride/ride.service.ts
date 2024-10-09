@@ -14,6 +14,10 @@ export class RideService {
         return await this.rideModel.create(payload);
     }
 
+    async getRides() {
+        return await this.rideModel.find();
+    }
+
     async getRideById(params: GetRideDto) {
         return await this.rideModel.findById(params.id).exec()
     }
