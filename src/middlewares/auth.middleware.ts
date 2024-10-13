@@ -1,24 +1,30 @@
 import { Injectable, NestMiddleware, UnauthorizedException } from "@nestjs/common";
 import { NextFunction, Request, Response } from "express";
-import { AuthService } from "src/modules/auth/auth.service";
+import { AuthUtilService } from "src/modules/auth/auth-util.service";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-    constructor(private readonly authService: AuthService) {}
+    constructor(private readonly authUtilService: AuthUtilService) {}
 
-    use(req: Request, res: Response, next: NextFunction) {
-        const token = req.headers.authorization;
+    async use(req: Request, res: Response, next: NextFunction) {
+        let token = req.headers.authorization;
 
         if(!token) {
             throw new UnauthorizedException('No token provided');
         }
-
-        const validateToken = this.authService.validate(token);
-
-        if (!validateToken) {
+        
+        try {
+            token = this.extractTokenFromHeader(req);
+            await this.authUtilService.validateJwt(token);
+        } catch {
             throw new UnauthorizedException('Invalid token');
         }
 
         next();
+    }
+
+    private extractTokenFromHeader(request: Request): string | undefined {
+        const [type, token] = request.headers.authorization?.split(' ') ?? [];
+        return type === 'Bearer' ? token : undefined;
     }
 }
